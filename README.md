@@ -1,6 +1,6 @@
 # Claude Code Skills
 
-Three general-purpose research skills for [Claude Code](https://claude.ai/code).
+Four general-purpose skills for [Claude Code](https://claude.ai/code).
 
 ## Skills
 
@@ -18,6 +18,11 @@ Multi-source research across time — no recency filter. Runs 5–8 searches acr
 Builds a structured competitive analysis matrix. Finds 8–12 competitors, maps funding, pricing, target customer, key features, data residency, and weaknesses. Produces a ranked threat table and identifies the clearest differentiation gap.
 
 **Trigger:** `/competitor-matrix [product description] [target market]`
+
+### `transcript-to-proposal`
+Takes a call transcript and a proposal template, extracts everything the prospect said (pain, priorities, budget signals, objections, buying signals, key quotes), and fills the template into a ready-to-review first draft. 45-minute task down to 5 minutes. Works for any call type — sales, discovery, partnership, pilot discussion.
+
+**Trigger:** `/transcript-to-proposal` then paste transcript + template
 
 ## Installation
 
