@@ -61,7 +61,11 @@ FILES: …
 
 ## Step 4 — Deliver
 1. `growth/PLAN.md`: the profile, the merged action table, the 90-day plan, needs from the client, measures.
-2. **One-pager for the client:** a single page with *what we'll do · what it can achieve · approach · timeline*. Typical outcomes only, never guaranteed rankings or invented percentages. Write it as a shareable doc if a docs tool is available, otherwise as `growth/ONE-PAGER.md`.
+2. **One-pager for the client, as a PDF.** It's client-facing, so it's always a PDF: never a doc, markdown file or web page. Copy `scripts/one_pager.example.json` to `growth/one-pager.json`, rewrite every field for this client (*what we'll do · what it can achieve · approach · timeline · what we need from them*), then render it:
+   ```bash
+   python3 -I <skill-dir>/scripts/one_pager.py growth/one-pager.json growth/<Client>-One-Pager.pdf
+   ```
+   The script draws one A4 page in standard Helvetica (about 6 KB, so it attaches anywhere) and exits with "does not fit" if the copy spills over. When that happens, cut words; don't shrink the type. Render it to PNG (`pdftoppm -r 80 -png`) and look at it once before handing it over. Typical outcomes only, never guaranteed rankings or invented percentages. Internal notes, file paths and tool names stay out of it.
 3. In chat: 5 lines — the biggest blocker, the 3 quickest wins, and what you need from them.
 
 ## Rules (all agents)

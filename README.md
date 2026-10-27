@@ -37,7 +37,7 @@ A team of four agents that grows a business three ways: **get found** (SEO and A
 
 | Skill | Trigger | What it does |
 |---|---|---|
-| `growth` | `/growth [business] [goal]` | Team lead protocol: profile → dispatch agents in parallel → merged plan and one-pager |
+| `growth` | `/growth [business] [goal]` | Team lead protocol: profile → dispatch agents in parallel → merged 90-day plan, plus a one-page client PDF (`scripts/one_pager.py`) |
 | `seo-audit` | `/seo-audit [url or path]` | Technical audit with a bundled crawler (`scripts/audit.py`, stdlib only) for live sites or static builds; fixes go to file:line |
 | `seo-keywords` | `/seo-keywords [business]` | Keyword clusters, intent, SERP winnability, competitor gaps; no invented volumes |
 | `seo-content` | `/seo-content brief\|optimise [...]` | Content briefs, and on-page rewrites with internal links and an E-E-A-T check |

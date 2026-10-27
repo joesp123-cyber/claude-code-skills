@@ -1,0 +1,46 @@
+{
+  "title": "Growth Agent",
+  "subtitle": "Service Overview",
+  "author": "Joe Wotherspoon",
+  "byline": ["Joe Wotherspoon · AI Engineer &amp; Founder", "joesp123-cyber.github.io · October 2026"],
+  "lead": "A team of AI agents grows your business three ways at once: <font color=\"#1f6feb\"><b>get found</b></font> on Google and in AI answers, <font color=\"#1f6feb\"><b>pay to be seen</b></font> with Google, Meta and LinkedIn ads, and <font color=\"#1f6feb\"><b>go get clients</b></font> with targeted LinkedIn and email outreach. Your logo shows next to every email you send. Nothing is sent, spent or published without your sign-off.",
+  "services": [
+    ["SEO &amp; AI search", "Technical audit and fixes, keyword map, page rewrites, structured data, Google Business Profile, visibility in ChatGPT, Perplexity and AI Overviews", "A site Google can fully read, pages aimed at searches that bring customers, a stronger local listing"],
+    ["Paid ads", "Google Search, Meta and LinkedIn campaign plans, competitor ad research, conversion tracking, ad copy", "Campaigns ready to switch on, plus a 30-day test with a target cost per lead"],
+    ["Targeted outreach", "Ideal client profile, named best-fit businesses with a reason to contact each now, LinkedIn and email sequences per prospect", "20–50 qualified prospects a round, emails waiting as drafts in your Gmail, a tracker sheet"],
+    ["Inbox brand", "SPF, DKIM and DMARC fixes, logo prepared to Gmail's standard, BIMI record and certificate", "Better inbox placement, and your logo (plus a blue tick with a trademark) beside every email"]
+  ],
+  "results": [
+    "Technical errors that stop Google indexing the site, fixed and re-checked",
+    "Richer search listings: site name, business details, review stars where they qualify",
+    "Pages aimed at searches that make money, not vanity traffic",
+    "A site AI assistants can read and quote",
+    "A steady pipeline of named prospects, each with a current reason to talk",
+    "More email in the inbox, and a logo that stands out once BIMI is live"
+  ],
+  "results_note": "Typical outcomes, not guarantees. Nobody can promise a Google ranking, and we never quote invented figures.",
+  "example": "<b>Worked example:</b> on our own portfolio site, the audit found 5 gaps. All were fixed in one pass and the audit score went from 95 to 100.",
+  "approach": [
+    ["Audit", "the site, tracking, email setup, and current presence in search and AI answers"],
+    ["Research", "searches you can win, competitors' live ads, the businesses most likely to buy"],
+    ["Fix", "technical and on-page issues in the site itself, plus the DNS records"],
+    ["Launch", "content, campaigns (paused until you approve) and outreach drafts"],
+    ["Measure", "impressions, cost per lead, reply rates, inbox placement; re-audit monthly"]
+  ],
+  "team": [
+    ["SEO agent", "Search and AI answers"],
+    ["Marketing agent", "Ads and inbox logo"],
+    ["Outreach agent", "Prospects and drafts"]
+  ],
+  "gate": "A lead agent runs all three in parallel. You approve anything sent, spent or published.",
+  "timeline": [
+    ["Weeks 1–2", "Foundations", ["Audit and quick fixes", "Tracking set up", "SPF, DKIM, DMARC", "Ideal client profile"]],
+    ["Weeks 3–6", "Launch", ["Keyword pages, schema", "Ads test, once approved", "First outreach round", "DMARC enforced"]],
+    ["Weeks 7–12", "Compound", ["Regular new content", "Scale winning ads", "Outreach rounds 2–3", "BIMI logo live"]],
+    ["Ongoing", "Measure", ["Monthly re-audit", "Monthly report", "Rankings build over 2–4 months"]]
+  ],
+  "timeline_highlight": 1,
+  "needs": "access to the website (or its code), Google Search Console and Analytics, the DNS settings for your email domain, any ad accounts, a monthly ad budget, your logo as a vector file, and 30 minutes a week to approve campaigns and outreach.",
+  "footer_left": "Ads: days · Outreach: weeks · Organic search: 2–4 months",
+  "footer_right": "joespoons123@gmail.com"
+}
