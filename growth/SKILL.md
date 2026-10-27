@@ -61,7 +61,7 @@ FILES: …
 
 ## Step 4 — Deliver
 1. `growth/PLAN.md`: the profile, the merged action table, the 90-day plan, needs from the client, measures.
-2. **One-pager for the client, as a PDF.** It's client-facing, so it's always a PDF: never a doc, markdown file or web page. Copy `scripts/one_pager.example.json` to `growth/one-pager.json`, rewrite every field for this client (*what we'll do · what it can achieve · approach · timeline · what we need from them*), then render it:
+2. **One-pager for the client, as a PDF.** It's client-facing, so it's always a PDF: never a doc, markdown file or web page. Copy `scripts/one_pager.example.json` to `growth/one-pager.json` and rewrite every field for this client. Lead with search engine optimisation as the headline service. Then show how the footprint grows through Meta ads, Google search trends, blog articles, and presentations or white papers. End with a proposed series of thought-leadership pieces on where the client's industry is heading: search engines and AI answer tools look for exactly this kind of forward-looking material. Mention AI sparingly, once or twice at most, because the client is buying visibility, not technology. Then render it:
    ```bash
    python3 -I <skill-dir>/scripts/one_pager.py growth/one-pager.json growth/<Client>-One-Pager.pdf
    ```
