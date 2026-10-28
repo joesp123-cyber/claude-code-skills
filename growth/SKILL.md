@@ -72,4 +72,5 @@ FILES: …
 - No invented metrics: volumes, CPCs, rankings and "expected leads" come only from supplied or plugin data, labelled as such.
 - Every finding has a concrete fix and an owner.
 - Nothing is sent, spent, published or pushed without the user's explicit approval.
+- Client copy is plain. Headings name the thing ("Search engine optimisation", "Website design") or ask a direct question. No slogans or taglines like "Be the name people find first".
 - Honest timelines: organic SEO moves over ~2–4 months, ads within days, outreach within weeks, BIMI in ~4–8 weeks.
