@@ -18,6 +18,9 @@ drawn top to bottom. Block types:
   timeline  heading, phases[[when, name, [lines]]], highlight (index)
   needs     label, text                        ruled line above
 
+Optional `palette` sets the brand colours as hex: ink, quiet, rule, accent,
+tint, and page (the page background; omit for white).
+
 See one_pager.example.json for a full page.
 """
 import json
@@ -43,28 +46,41 @@ CW = W - 2 * M  # content width
 GAP = 4.2 * mm  # between blocks
 
 
-def style(name, size, lead=None, font="Helvetica", color=INK, **kw):
-    return ParagraphStyle(name, fontName=font, fontSize=size, leading=lead or size * 1.38, textColor=color, **kw)
+def set_palette(pal):
+    """Swap in a brand's colours before the styles are built."""
+    global INK, QUIET, RULE, ACCENT, TINT
+    c = {k: colors.HexColor(v) for k, v in (pal or {}).items()}
+    INK, QUIET, RULE = c.get("ink", INK), c.get("quiet", QUIET), c.get("rule", RULE)
+    ACCENT, TINT = c.get("accent", ACCENT), c.get("tint", TINT)
 
 
-S = {
-    "title": style("title", 22, 24, "Helvetica-Bold"),
-    "subtitle": style("subtitle", 11, 14, color=QUIET),
-    "by": style("by", 8.2, 11, color=QUIET, alignment=TA_RIGHT),
-    "lead": style("lead", 10, 14),
-    "h2": style("h2", 7.8, 10, "Helvetica-Bold", ACCENT),
-    "th": style("th", 7.6, 10, "Helvetica-Bold", QUIET),
-    "cell": style("cell", 8.4, 11.2),
-    "cellb": style("cellb", 8.4, 11.2, "Helvetica-Bold"),
-    "body": style("body", 8.6, 11.8),
-    "note": style("note", 7.8, 10.4, color=QUIET),
-    "small": style("small", 7.8, 10.2, color=QUIET),
-    "phw": style("phw", 9.6, 12, "Helvetica-Bold"),
-}
+def style(name, size, lead=None, font="Helvetica", color=None, **kw):
+    return ParagraphStyle(name, fontName=font, fontSize=size, leading=lead or size * 1.38, textColor=color or INK, **kw)
+
+
+def make_styles():
+    return {
+        "title": style("title", 22, 24, "Helvetica-Bold"),
+        "subtitle": style("subtitle", 11, 14, color=QUIET),
+        "by": style("by", 8.2, 11, color=QUIET, alignment=TA_RIGHT),
+        "lead": style("lead", 10, 14),
+        "h2": style("h2", 7.8, 10, "Helvetica-Bold", ACCENT),
+        "th": style("th", 7.6, 10, "Helvetica-Bold", QUIET),
+        "cell": style("cell", 8.4, 11.2),
+        "cellb": style("cellb", 8.4, 11.2, "Helvetica-Bold"),
+        "body": style("body", 8.6, 11.8),
+        "note": style("note", 7.8, 10.4, color=QUIET),
+        "small": style("small", 7.8, 10.2, color=QUIET),
+        "phw": style("phw", 9.6, 12, "Helvetica-Bold"),
+    }
+
 
 FLAT = [("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
         ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
         ("VALIGN", (0, 0), (-1, -1), "TOP")]
+
+
+S = make_styles()
 
 
 def p(text, s="body"):
@@ -81,16 +97,21 @@ def marked(rows, mark_width):
     return t
 
 
+def accent(text):
+    return f'<font color="#{ACCENT.hexval()[2:]}">{text}</font>'
+
+
 def bullets(items):
-    return marked([[p('<font color="#1f6feb">•</font>'), p(t)] for t in items], 3.4 * mm)
+    return marked([[p(accent("•")), p(t)] for t in items], 3.4 * mm)
 
 
 def steps(items):
-    return marked([[p(f'<font color="#1f6feb"><b>{i}</b></font>'), p(f"<b>{name}</b> {text}")]
+    return marked([[p(accent(f"<b>{i}</b>")), p(f"<b>{name}</b> {text}")]
                    for i, (name, text) in enumerate(items, 1)], 4.6 * mm)
 
 
-def panel(flowables, width, bg=None, border=RULE, line=0.6, pad=2.6 * mm):
+def panel(flowables, width, bg=None, border=None, line=0.6, pad=2.6 * mm):
+    border = border or RULE
     t = Table([[flowables]], colWidths=[width])
     cmds = [("BOX", (0, 0), (-1, -1), line, border), ("VALIGN", (0, 0), (-1, -1), "TOP"),
             ("LEFTPADDING", (0, 0), (-1, -1), pad), ("RIGHTPADDING", (0, 0), (-1, -1), pad),
@@ -212,9 +233,16 @@ def main():
     if len(sys.argv) != 3:
         raise SystemExit(__doc__)
     content = json.load(open(sys.argv[1], encoding="utf-8"))
+    global S
+    set_palette(content.get("palette"))
+    S = make_styles()
     cv = Canvas(sys.argv[2], pagesize=A4, pageCompression=1)
     cv.setTitle(" — ".join(x for x in (content["title"], content.get("subtitle", "")) if x))
     cv.setAuthor(content.get("author", ""))
+    page = (content.get("palette") or {}).get("page")
+    if page:
+        cv.setFillColor(colors.HexColor(page))
+        cv.rect(0, 0, W, H, stroke=0, fill=1)
     frame = Frame(M, 16 * mm, CW, H - M - 16 * mm, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
     # KeepInFrame in "error" mode raises instead of silently shrinking or dropping content.
     box = KeepInFrame(CW, frame._aH, build(content), mode="error")
