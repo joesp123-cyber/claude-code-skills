@@ -61,7 +61,19 @@ It's a cheap, emerging convention. Present it as useful, not as a ranking guaran
 - **Freshness:** a visible updated date, with content that stays current.
 - **Server-rendered:** AI crawlers often don't run JavaScript. Confirm the text is in the raw HTML (`curl -s URL | grep "key phrase"`).
 
-## Step 5 — Entity consistency and mentions
+## Step 5 — Google's preferred-source button
+
+Google lets readers mark a site as a preferred source. After that, they see it more often in their own Top Stories, AI Overviews and AI Mode. Google publishes an embeddable button for it ([Search Central: preferred sources](https://developers.google.com/search/docs/appearance/preferred-sources)).
+
+1. **Check eligibility.** Only domain and subdomain sites qualify, not sub-folders. Search the site in Google's source preferences tool (`https://www.google.com/preferences/source`). If it doesn't appear, the button won't help yet, so say so.
+2. **Add it:**
+   - Google's script, preferably in `<head>`: `<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>`. In Next.js, use `next/script` with `strategy="afterInteractive"`.
+   - An empty element where the button should go: `<div google-add-preferred-source-btn></div>`. Add `data-theme="dark"` on dark backgrounds.
+   - Good places: the footer, and the end of articles.
+3. **Strict Content Security Policy:** allow `news.google.com`, `www.gstatic.com` and `fonts.gstatic.com`. Or skip the script and use a plain branded link to `https://www.google.com/preferences/source?q=<domain>`.
+4. **Describe it honestly.** It personalises results for the readers who click it. It is not a site-wide ranking boost, and Google says it doesn't override relevance or quality. Clicks happen inside Google's frame, so the site can't count them.
+
+## Step 6 — Entity consistency and mentions
 - The same one-line description of the brand everywhere: the site, LinkedIn, GBP, directories.
 - `sameAs` in the JSON-LD links all official profiles (see `seo-schema`).
 - Earn mentions in the sources Step 1 showed are being cited: industry directories, "best X" listicles, Reddit threads (as genuine participation, never spam), podcasts, partner sites. List the 10 best targets.
@@ -73,7 +85,7 @@ It's a cheap, emerging convention. Present it as useful, not as a ranking guaran
 ### Baseline
 | Question | Brand mentioned? | Cited sources instead |
 ### Changes made / to make
-- robots AI rules: …   - llms.txt: …   - pages restructured: …
+- robots AI rules: …   - llms.txt: …   - preferred-source button: …   - pages restructured: …
 ### Mention targets (top 10)
 ### Re-check in 30 days: [the same questions]
 ```
