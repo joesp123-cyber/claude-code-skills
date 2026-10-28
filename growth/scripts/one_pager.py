@@ -196,6 +196,9 @@ def build(c):
 
 
 def footer(canvas, c):
+    """Optional: drawn only when the content sets footer_left or footer_right."""
+    if not (c.get("footer_left") or c.get("footer_right")):
+        return
     canvas.setStrokeColor(RULE)
     canvas.setLineWidth(0.5)
     canvas.line(M, 13 * mm, W - M, 13 * mm)

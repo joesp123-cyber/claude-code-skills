@@ -2,18 +2,41 @@
   "title": "Search Engine Optimisation",
   "subtitle": "A plan for Northfield Joinery",
   "author": "Your Name",
-  "byline": ["Prepared for Sam by Your Name", "October 2026"],
+  "byline": [
+    "Prepared for Sam by Your Name",
+    "October 2026"
+  ],
   "lead": "When someone nearby searches for bespoke joinery, Northfield should be the name they find first. This plan puts <b>search engine optimisation</b> at the centre, then widens your footprint with Meta ads, Google search-trend research, and published work on <b>the future of sustainable timber</b>.",
   "blocks": [
     {
       "type": "table",
       "heading": "The core: search engine optimisation",
-      "columns": ["Area", "What we do", "What it gives you"],
+      "columns": [
+        "Area",
+        "What we do",
+        "What it gives you"
+      ],
       "rows": [
-        ["Technical health", "Fix everything that stops Google reading the site: speed, mobile layout, indexing, page titles and structured data", "A site that is able to rank, and is shown properly when it does"],
-        ["Keywords", "Map what buyers actually search for and give each service its own page", "Pages that answer real searches from people ready to buy"],
-        ["Local search", "Google Business Profile, service-area pages, project photos and a steady flow of reviews", "A place in the map results for searches in your area"],
-        ["AI search", "Clear, well-sourced pages that AI search tools can read and quote", "Your name in the answer, not just in the list of links"]
+        [
+          "Technical health",
+          "Fix everything that stops Google reading the site: speed, mobile layout, indexing, page titles and structured data",
+          "A site that is able to rank, and is shown properly when it does"
+        ],
+        [
+          "Keywords",
+          "Map what buyers actually search for and give each service its own page",
+          "Pages that answer real searches from people ready to buy"
+        ],
+        [
+          "Local search",
+          "Google Business Profile, service-area pages, project photos and a steady flow of reviews",
+          "A place in the map results for searches in your area"
+        ],
+        [
+          "AI search",
+          "Clear, well-sourced pages that AI search tools can read and quote",
+          "Your name in the answer, not just in the list of links"
+        ]
       ]
     },
     {
@@ -37,9 +60,18 @@
       "type": "callout",
       "heading": "Proposed series: the future of sustainable timber",
       "items": [
-        ["First piece.", "One line on what it argues. Article."],
-        ["Second piece.", "One line on what it argues. White paper."],
-        ["Third piece.", "One line on what it argues. Presentation."]
+        [
+          "First piece.",
+          "One line on what it argues. Article."
+        ],
+        [
+          "Second piece.",
+          "One line on what it argues. White paper."
+        ],
+        [
+          "Third piece.",
+          "One line on what it argues. Presentation."
+        ]
       ],
       "note": "Every piece is researched, sourced, and approved by you before it is published."
     },
@@ -48,17 +80,47 @@
       "heading": "Timeline",
       "highlight": 1,
       "phases": [
-        ["Weeks 1–2", "Foundations", ["Site audit and fixes", "Keyword map", "Google Business Profile"]],
-        ["Weeks 3–6", "Launch", ["Service pages live", "First article published", "Meta ads test, once approved"]],
-        ["Weeks 7–12", "Grow", ["Two articles a month", "First white paper", "Scale the ads that work"]],
-        ["Ongoing", "Measure", ["Monthly ranking report", "Quarterly re-audit", "Rankings build over 2–4 months"]]
+        [
+          "Weeks 1–2",
+          "Foundations",
+          [
+            "Site audit and fixes",
+            "Keyword map",
+            "Google Business Profile"
+          ]
+        ],
+        [
+          "Weeks 3–6",
+          "Launch",
+          [
+            "Service pages live",
+            "First article published",
+            "Meta ads test, once approved"
+          ]
+        ],
+        [
+          "Weeks 7–12",
+          "Grow",
+          [
+            "Two articles a month",
+            "First white paper",
+            "Scale the ads that work"
+          ]
+        ],
+        [
+          "Ongoing",
+          "Measure",
+          [
+            "Monthly ranking report",
+            "Quarterly re-audit",
+            "Rankings build over 2–4 months"
+          ]
+        ]
       ]
     },
     {
       "type": "needs",
       "text": "access to the website and Google Search Console, your Meta business account, a monthly ad budget, and around 30 minutes per article to talk through your expertise."
     }
-  ],
-  "footer_left": "Your Name · yoursite.com",
-  "footer_right": "you@yoursite.com"
+  ]
 }
