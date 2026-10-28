@@ -62,6 +62,18 @@ mkdir -p ~/.claude/agents && cp agents/*.md ~/.claude/agents/
 claude --agent growth-lead      # or /growth inside any session
 ```
 
+### SEO engine: Claude SEO
+
+The SEO Optimisation Protocol runs on [Claude SEO](https://github.com/AgriciDaniel/claude-seo) by Agrici Daniel (MIT licence): 26 skills and 19 specialist agents covering technical SEO, Core Web Vitals, E-E-A-T, schema, AI search, local and maps, links and weekly change monitoring. Install it alongside this suite:
+
+```bash
+/plugin marketplace add AgriciDaniel/claude-seo
+/plugin install claude-seo@agricidaniel-claude-seo
+/seo setup
+```
+
+`seo-agent` uses it first and falls back to the skills here when it isn't installed.
+
 ## Installation
 
 Copy any skill folder into your Claude Code skills directory:
