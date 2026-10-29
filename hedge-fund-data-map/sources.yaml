@@ -1,0 +1,459 @@
+# Hedge fund data source catalog
+#
+# status:
+#   used       - wired into a past project (see used_in)
+#   connected  - available as a Claude connector/tool, not yet used for markets
+#   potential  - not used yet; listed because it extends an existing signal
+# cost: free | freemium | paid
+# lag: time between the real-world event and the data being retrievable
+
+sources:
+
+  # ---------------------------------------------------------------- filings
+  - id: edgar-form4
+    name: SEC EDGAR - Form 4 insider transactions
+    category: regulatory-filings
+    status: used
+    used_in: [Equity Signal Trading Bot]
+    data_points: [issuer CIK, insider name and role, transaction code (P/S/A/M), shares, price, post-trade holding, 10b5-1 flag]
+    access: https://data.sec.gov/submissions/CIK##########.json + filing XML under https://www.sec.gov/Archives/edgar/data/
+    auth: none; descriptive User-Agent header required, max 10 req/s
+    cost: free
+    lag: up to 2 business days
+    signal_uses: [cluster insider buying, officer open-market purchases (code P), selling after lock-up]
+
+  - id: edgar-13f
+    name: SEC EDGAR - 13F-HR institutional holdings
+    category: regulatory-filings
+    status: used
+    used_in: [Equity Signal Trading Bot]
+    data_points: [manager CIK, CUSIP, shares, market value, put/call, quarter-on-quarter change]
+    access: EDGAR full-text search https://efts.sec.gov/LATEST/search-index?forms=13F-HR + information table XML; SEC quarterly 13F data sets
+    auth: none; User-Agent header
+    cost: free
+    lag: up to 45 days after quarter end
+    signal_uses: [smart-money crowding, new positions by top-decile managers, consensus unwind risk]
+
+  - id: stock-act
+    name: STOCK Act congressional trade disclosures
+    category: regulatory-filings
+    status: used
+    used_in: [Equity Signal Trading Bot]
+    data_points: [member, chamber, committee, ticker, buy/sell, amount band, transaction date, disclosure date]
+    access: House https://disclosures-clerk.house.gov/FinancialDisclosure (PTR PDFs + yearly XML index); Senate https://efdsearch.senate.gov; aggregator Quiver Quantitative API
+    auth: none for primary sources; key for Quiver
+    cost: free (primary) / paid (aggregators)
+    lag: up to 45 days
+    signal_uses: [committee-relevant trades, overlap with insider and 13F buying]
+
+  - id: edgar-xbrl
+    name: SEC XBRL financial data APIs
+    category: regulatory-filings
+    status: potential
+    data_points: [every tagged line item from 10-K/10-Q (revenue, EPS, cash, debt, shares outstanding), cross-sectional frames by period]
+    access: https://data.sec.gov/api/xbrl/companyfacts/CIK##########.json, /companyconcept/, /frames/
+    auth: none; User-Agent header
+    cost: free
+    lag: same day as filing
+    signal_uses: [point-in-time fundamentals without a vendor, quality/value factors, accrual anomalies]
+
+  - id: edgar-events
+    name: SEC EDGAR - 8-K, 13D/13G, Form 144, N-PORT
+    category: regulatory-filings
+    status: potential
+    data_points: [8-K item codes (1.01 material agreement, 2.02 results, 5.02 officer change), activist stakes over 5%, planned insider sales, monthly fund holdings]
+    access: EDGAR full-text search API + submissions JSON
+    auth: none; User-Agent header
+    cost: free
+    lag: 8-K 4 business days; 13D 5 business days; Form 144 same day as sale order; N-PORT 60 days
+    signal_uses: [activist entry, CFO departures, pre-announced insider supply, mutual fund flows]
+
+  - id: companies-house
+    name: UK Companies House
+    category: regulatory-filings
+    status: used
+    used_in: [Vektor AI research sources, MSP Discovery agent enrichment]
+    data_points: [officers, persons with significant control, filing history, accounts, charges, insolvency]
+    access: https://api.company-information.service.gov.uk; streaming API for live changes
+    auth: free API key
+    cost: free
+    lag: same day
+    signal_uses: [UK private-company read-across, director churn, new charges (debt) on suppliers]
+
+  - id: fca-shorts
+    name: FCA net short position disclosures (UK) / ESMA national registers
+    category: regulatory-filings
+    status: potential
+    data_points: [holder, issuer, net short % (>=0.5% public), position date]
+    access: daily spreadsheet on fca.org.uk; equivalent national regulators across EU (e.g. Finansinspektionen in Sweden)
+    auth: none
+    cost: free
+    lag: T+1
+    signal_uses: [short crowding, named-fund short entry/exit]
+
+  - id: fi-insider
+    name: Finansinspektionen insider register (Sweden) and Nordic equivalents
+    category: regulatory-filings
+    status: potential
+    data_points: [PDMR name, issuer, transaction type, volume, price]
+    access: https://marknadssok.fi.se (CSV export)
+    auth: none
+    cost: free
+    lag: up to 3 business days
+    signal_uses: [Form 4 strategy ported to Nordic small caps]
+
+  # ------------------------------------------------------------ market data
+  - id: alpaca
+    name: Alpaca Markets
+    category: market-data-and-execution
+    status: used
+    used_in: [Equity Signal Trading Bot]
+    data_points: [bars, trades, quotes, corporate actions, news feed, account and positions, order fills]
+    access: https://data.alpaca.markets (data), https://paper-api.alpaca.markets (paper trading)
+    auth: API key pair
+    cost: freemium (IEX feed free; full SIP paid)
+    lag: real time (SIP) / 15 min delayed on free tier for some endpoints
+    signal_uses: [execution, backtest prices, news-reaction studies]
+
+  - id: market-data-apis
+    name: Generic market data APIs (morning briefing) and IPO watchlist
+    category: market-data-and-execution
+    status: used
+    used_in: [Morning Intelligence Agent]
+    data_points: [index levels, FX, rates, IPO calendar and pricing]
+    access: varied
+    auth: varied
+    cost: varied
+    lag: end of day
+    signal_uses: [daily briefing, IPO lock-up expiry calendar]
+
+  - id: polygon-databento
+    name: Polygon.io / Databento / Tiingo
+    category: market-data-and-execution
+    status: potential
+    data_points: [tick and minute data, options chains and greeks, futures, reference data]
+    access: vendor REST and websocket APIs
+    auth: API key
+    cost: paid (Tiingo has a cheap tier)
+    lag: real time
+    signal_uses: [options implied volatility around events, intraday reaction measurement]
+
+  - id: finra-short
+    name: FINRA short interest and Reg SHO daily short volume
+    category: market-data-and-execution
+    status: potential
+    data_points: [bi-monthly short interest, daily short sale volume by venue]
+    access: https://api.finra.org and daily files at https://cdn.finra.org/equity/regsho/daily/
+    auth: none for files; free key for API
+    cost: free
+    lag: short interest ~ 7 business days; short volume T+1
+    signal_uses: [days-to-cover, squeeze screens, contra-signal to insider buying]
+
+  - id: cftc-cot
+    name: CFTC Commitments of Traders
+    category: market-data-and-execution
+    status: potential
+    data_points: [futures positioning by trader class (commercial, managed money, swap dealer)]
+    access: https://publicreporting.cftc.gov (Socrata API)
+    auth: none
+    cost: free
+    lag: Tuesday positions released Friday
+    signal_uses: [macro crowding, managed-money extremes in rates, FX and commodities]
+
+  # ----------------------------------------------------- prediction markets
+  - id: polymarket
+    name: Polymarket
+    category: prediction-markets
+    status: used
+    used_in: [Prediction Market Trading Bot, last-30-days skill]
+    data_points: [market question, outcome prices (implied probability), order book depth, volume, resolution]
+    access: https://gamma-api.polymarket.com (markets), https://clob.polymarket.com (order book), https://data-api.polymarket.com (trades, positions)
+    auth: none for reads; wallet key for trading
+    cost: free
+    lag: real time
+    signal_uses: [event probabilities (elections, policy, geopolitics) mapped to sector baskets]
+
+  - id: kalshi
+    name: Kalshi
+    category: prediction-markets
+    status: used
+    used_in: [Prediction Market Trading Bot]
+    data_points: [event contract prices for Fed decisions, CPI, payrolls, GDP, weather; order book; settlement]
+    access: https://api.elections.kalshi.com/trade-api/v2
+    auth: API key for trading; public market data endpoints
+    cost: free
+    lag: real time
+    signal_uses: [macro-release distributions vs. fed funds futures and consensus, event hedging]
+
+  # -------------------------------------------------------- macro & govt
+  - id: fred
+    name: FRED (St. Louis Fed)
+    category: macro
+    status: potential
+    data_points: [800k+ series: rates, spreads, inflation, labour, money supply; vintage data via ALFRED]
+    access: https://api.stlouisfed.org/fred/series/observations
+    auth: free API key
+    cost: free
+    lag: series dependent
+    signal_uses: [macro nowcasts, regime filters, point-in-time vintages to avoid look-ahead]
+
+  - id: bls-bea-treasury
+    name: BLS, BEA, US Treasury Fiscal Data
+    category: macro
+    status: potential
+    data_points: [CPI components, payrolls, JOLTS, GDP and PCE, daily Treasury statement, auction results]
+    access: https://api.bls.gov/publicAPI/v2, https://apps.bea.gov/api, https://api.fiscaldata.treasury.gov
+    auth: free key (BLS v2, BEA)
+    cost: free
+    lag: release calendar
+    signal_uses: [release-day models vs. Kalshi implied distributions, TGA liquidity]
+
+  - id: commodity-govt
+    name: EIA, USDA NASS, NOAA
+    category: macro
+    status: potential
+    data_points: [crude and gas inventories, refinery runs, crop progress and yields, weather forecasts]
+    access: https://api.eia.gov/v2, https://quickstats.nass.usda.gov/api, https://api.weather.gov
+    auth: free key (EIA, NASS)
+    cost: free
+    lag: weekly / daily
+    signal_uses: [energy and ag fundamentals, weather-driven demand]
+
+  # ------------------------------------------------ government contracts
+  - id: uk-procurement
+    name: UK public procurement (Contracts Finder, Find a Tender, CCS frameworks)
+    category: government-contracts
+    status: used
+    used_in: [MSP Discovery & Monitoring Agent]
+    data_points: [buyer, supplier, framework, lot, award value, award date, contract duration]
+    access: Contracts Finder OCDS search API; https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages; CCS framework supplier lists
+    auth: none
+    cost: free
+    lag: days to weeks after award
+    signal_uses: [revenue surprises for listed UK suppliers (IT services, defence, outsourcing)]
+
+  - id: usaspending
+    name: USAspending.gov and SAM.gov
+    category: government-contracts
+    status: potential
+    data_points: [federal awards and modifications, recipient parent company, obligated amount, agency, NAICS]
+    access: https://api.usaspending.gov/api/v2/
+    auth: none
+    cost: free
+    lag: days to weeks
+    signal_uses: [contract wins as % of trailing revenue for small and mid-cap defence/gov-IT names]
+
+  - id: lobbying
+    name: Senate Lobbying Disclosure (LDA)
+    category: government-contracts
+    status: potential
+    data_points: [client, registrant, issues lobbied, spend per quarter]
+    access: https://lda.senate.gov/api/v1/
+    auth: free key recommended
+    cost: free
+    lag: quarterly
+    signal_uses: [policy exposure, lobbying spend spikes ahead of rule changes; pairs with STOCK Act]
+
+  # ------------------------------------------- healthcare & life sciences
+  - id: fda
+    name: FDA (openFDA + approvals, CRLs, PDUFA dates, advisory committees)
+    category: healthcare
+    status: used
+    used_in: [Vektor AI research sources]
+    data_points: [approvals, complete response letters, adverse events, recalls, AdCom calendar, PDUFA dates]
+    access: https://api.fda.gov + fda.gov pages
+    auth: optional free key
+    cost: free
+    lag: same day
+    signal_uses: [binary event calendar for biotech, post-approval safety signals]
+
+  - id: ema-uk-health
+    name: EMA, NICE, MHRA, NHS (gov.uk)
+    category: healthcare
+    status: used
+    used_in: [Vektor AI research sources]
+    data_points: [CHMP opinions, EU approvals, NICE reimbursement decisions, MHRA approvals]
+    access: ema.europa.eu, gov.uk (pages and RSS; search via site: queries)
+    auth: none
+    cost: free
+    lag: same day
+    signal_uses: [EU/UK approval and reimbursement events for pharma and medtech]
+
+  - id: clinicaltrials
+    name: ClinicalTrials.gov
+    category: healthcare
+    status: potential
+    data_points: [trial phase, status changes, enrolment, primary completion date, results posted]
+    access: https://clinicaltrials.gov/api/v2/studies
+    auth: none
+    cost: free
+    lag: days
+    signal_uses: [readout calendar, quiet changes to endpoints or enrolment ahead of data]
+
+  # ----------------------------------------------- private markets & deals
+  - id: pe-deal-news
+    name: PE and M&A deal news (PEI, PE Insights, Mergermarket, Reuters, FT)
+    category: private-markets
+    status: used
+    used_in: [Vektor AI research sources, deep-research skill]
+    data_points: [deal announcements, rumours, sponsor, valuation multiples, fundraising]
+    access: web search and fetch; Mergermarket is a paid terminal
+    auth: subscription for Mergermarket and FT
+    cost: paid / paywalled
+    lag: real time
+    signal_uses: [take-private targets, sector multiple read-across to listed comps]
+
+  - id: crunchbase
+    name: Crunchbase
+    category: private-markets
+    status: connected
+    used_in: [competitor-matrix skill, sales plugin connector]
+    data_points: [funding rounds, investors, valuations, acquisitions, headcount bands]
+    access: https://api.crunchbase.com/api/v4 or the Crunchbase connector
+    auth: API key (paid tier)
+    cost: paid
+    lag: days
+    signal_uses: [private competitor funding pressure on listed incumbents, acquirer identification]
+
+  - id: vektor-docs
+    name: Private investment documents (Vektor AI extraction stack)
+    category: private-markets
+    status: used
+    used_in: [Vektor AI, PE Knowledge Intelligence System]
+    data_points: [extracted signals with source passage, risks, KPIs, recency-weighted search hits]
+    access: internal FastAPI + pgvector service
+    auth: internal
+    cost: internal
+    lag: on ingest
+    signal_uses: [point the same pipeline at 10-K/10-Q risk factors and earnings transcripts for change detection]
+
+  # ------------------------------------------- alternative & sentiment data
+  - id: reddit
+    name: Reddit
+    category: alternative-data
+    status: used
+    used_in: [last-30-days skill, deep-research skill, competitor-matrix skill]
+    data_points: [post and comment volume per ticker, upvotes, subreddit, sentiment]
+    access: https://oauth.reddit.com (Data API)
+    auth: OAuth app
+    cost: free for low volume; commercial use requires an agreement
+    lag: real time
+    signal_uses: [retail attention spikes, product complaints (consumer names)]
+
+  - id: x-twitter
+    name: X / Twitter
+    category: alternative-data
+    status: used
+    used_in: [last-30-days skill]
+    data_points: [cashtag mentions, author follower counts, engagement]
+    access: https://api.x.com/2
+    auth: bearer token
+    cost: paid tiers
+    lag: real time
+    signal_uses: [breaking news detection, attention, management commentary]
+
+  - id: youtube
+    name: YouTube Data API
+    category: alternative-data
+    status: used
+    used_in: [last-30-days skill]
+    data_points: [video counts, views, comments by topic or company]
+    access: https://www.googleapis.com/youtube/v3
+    auth: free key with daily quota
+    cost: free
+    lag: real time
+    signal_uses: [consumer product attention, influencer coverage of retail names]
+
+  - id: hacker-news
+    name: Hacker News (Algolia search API)
+    category: alternative-data
+    status: used
+    used_in: [deep-research skill]
+    data_points: [story and comment mentions, points]
+    access: https://hn.algolia.com/api/v1/search
+    auth: none
+    cost: free
+    lag: real time
+    signal_uses: [developer sentiment for software and infra names, outage chatter]
+
+  - id: reviews
+    name: G2, Capterra, Product Hunt
+    category: alternative-data
+    status: used
+    used_in: [competitor-matrix skill]
+    data_points: [review counts, ratings, negative-review themes, pricing pages]
+    access: web search and fetch (no open API)
+    auth: none
+    cost: free to read; check terms before systematic collection
+    lag: real time
+    signal_uses: [SaaS share shift, churn risk, pricing changes]
+
+  - id: linkedin
+    name: LinkedIn (hiring and firm announcements)
+    category: alternative-data
+    status: used
+    used_in: [last-30-days skill (Vektor research), inbox digests]
+    data_points: [job postings, headcount changes, senior hires]
+    access: manual / search only; no open API and scraping breaches terms. Licensed alternatives: LinkUp, Revelio Labs, Coresignal
+    auth: n/a
+    cost: paid for licensed data
+    lag: days
+    signal_uses: [hiring freezes, expansion into new markets, sales-team growth]
+
+  - id: similarweb
+    name: Similarweb
+    category: alternative-data
+    status: connected
+    used_in: [sales plugin connector]
+    data_points: [site visits, app downloads, traffic sources, conversion proxies]
+    access: Similarweb connector or REST API
+    auth: API key
+    cost: paid
+    lag: days
+    signal_uses: [web-traffic revenue nowcasts for e-commerce and SaaS]
+
+  - id: gdelt
+    name: GDELT
+    category: alternative-data
+    status: potential
+    data_points: [global news events, tone, themes, entity mentions every 15 minutes]
+    access: https://api.gdeltproject.org/api/v2/doc/doc
+    auth: none
+    cost: free
+    lag: 15 minutes
+    signal_uses: [geopolitical risk indices, company news-tone tracking]
+
+  - id: wikipedia-pageviews
+    name: Wikimedia pageviews
+    category: alternative-data
+    status: potential
+    data_points: [daily views per article]
+    access: https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/
+    auth: none
+    cost: free
+    lag: daily
+    signal_uses: [attention proxy that is hard to manipulate; pairs with Reddit and X]
+
+  - id: patents-github
+    name: PatentsView and GitHub
+    category: alternative-data
+    status: potential
+    data_points: [patent grants by assignee and CPC class, repo stars, commits, contributors]
+    access: https://search.patentsview.org/api/v1, https://api.github.com
+    auth: free keys
+    cost: free
+    lag: weekly (patents), real time (GitHub)
+    signal_uses: [R&D output, open-source adoption for developer-tool companies]
+
+  # ------------------------------------------------ workflow plumbing
+  - id: workflow
+    name: Gmail, Google Calendar, Notion API, Microsoft Graph, WhatsApp
+    category: workflow
+    status: used
+    used_in: [Morning Intelligence Agent, Vet Discharge Copilot, Vektor AI, Financial Planning Practice Website]
+    data_points: [n/a - delivery and storage, not signal]
+    access: respective APIs
+    auth: OAuth
+    cost: free
+    lag: n/a
+    signal_uses: [morning briefing delivery, research CRM, alert routing]
