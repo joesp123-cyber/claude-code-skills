@@ -24,6 +24,11 @@ Takes a call transcript and a proposal template, extracts everything the prospec
 
 **Trigger:** `/transcript-to-proposal` then paste transcript + template
 
+### `hedge-fund-data-map`
+Catalog of every data source, data point and API used in past projects (EDGAR Form 4 and 13F, STOCK Act, Alpaca, Polymarket, Kalshi, Companies House, UK procurement, FDA/EMA, Reddit/X/YouTube and more), plus the free APIs that extend them. Each entry gives the endpoint, auth, cost and lag. Nine signal recipes join the sources into hedge fund strategies. Machine-readable catalog in `sources.yaml`.
+
+**Trigger:** `/hedge-fund-data-map [strategy or question]`
+
 ## Installation
 
 Copy any skill folder into your Claude Code skills directory:

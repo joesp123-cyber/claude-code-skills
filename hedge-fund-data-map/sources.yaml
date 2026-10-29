@@ -190,7 +190,7 @@ sources:
     name: FRED (St. Louis Fed)
     category: macro
     status: potential
-    data_points: [800k+ series: rates, spreads, inflation, labour, money supply; vintage data via ALFRED]
+    data_points: [800k+ series - rates, spreads, inflation, labour, money supply; vintage data via ALFRED]
     access: https://api.stlouisfed.org/fred/series/observations
     auth: free API key
     cost: free
@@ -273,7 +273,7 @@ sources:
     status: used
     used_in: [Vektor AI research sources]
     data_points: [CHMP opinions, EU approvals, NICE reimbursement decisions, MHRA approvals]
-    access: ema.europa.eu, gov.uk (pages and RSS; search via site: queries)
+    access: ema.europa.eu, gov.uk (pages and RSS; search via site-restricted queries)
     auth: none
     cost: free
     lag: same day
@@ -394,7 +394,7 @@ sources:
     status: used
     used_in: [last-30-days skill (Vektor research), inbox digests]
     data_points: [job postings, headcount changes, senior hires]
-    access: manual / search only; no open API and scraping breaches terms. Licensed alternatives: LinkUp, Revelio Labs, Coresignal
+    access: manual / search only; no open API and scraping breaches terms. Licensed alternatives - LinkUp, Revelio Labs, Coresignal
     auth: n/a
     cost: paid for licensed data
     lag: days
