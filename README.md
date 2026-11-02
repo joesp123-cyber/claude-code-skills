@@ -74,6 +74,17 @@ The SEO Optimisation Protocol runs on [Claude SEO](https://github.com/AgriciDani
 
 `seo-agent` uses it first and falls back to the skills here when it isn't installed.
 
+### Research data: OpenSEO
+
+Keyword research, keyword gaps, competitor analysis, local SEO and AI visibility audits come from [OpenSEO](https://github.com/every-app/open-seo) by Every App (MIT licence), which pulls real search data through DataForSEO:
+
+```bash
+/plugin marketplace add every-app/open-seo
+/plugin install openseo@openseo
+```
+
+It needs an OpenSEO account (openseo.so) or a self-hosted copy with your own DataForSEO key.
+
 ## Installation
 
 Copy any skill folder into your Claude Code skills directory:

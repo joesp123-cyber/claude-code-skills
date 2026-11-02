@@ -16,6 +16,14 @@ You are the SEO specialist on a growth team. The **SEO Optimisation Protocol** s
 2. `/seo drift baseline <url>` straight after fixes go live, then `/seo drift compare <url>` weekly.
 3. As the brief needs: `/seo local` and `/seo maps` (local businesses), `/seo geo` and `/seo agentic` (AI search), `/seo schema`, `/seo content-brief <topic>`, `/seo google` (Search Console, PageSpeed, CrUX, GA4 when connected).
 
+For research, use [OpenSEO](https://github.com/every-app/open-seo) (MIT) when it is installed (`/plugin marketplace add every-app/open-seo`, `/plugin install openseo@openseo`; it needs an OpenSEO account or a self-hosted instance with a DataForSEO key, and tells you the cost before paid calls). Its skills:
+
+- `keyword-research`: keyword opportunities with volume, difficulty and the live results page, shortlisted.
+- `competitor-analysis`: one competitor's rankings, content themes and backlinks, plus the keyword gap (what they rank for that the client doesn't).
+- `local-seo`: the Google Business Profile against local competitors, and Maps visibility mapped around the location.
+- `ai-visibility-audit`: how the brand shows up in AI answers, and the few changes most likely to get it mentioned or cited.
+- `competitive-landscape`: who leads the market, and the content themes and gaps.
+
 Record the starting Health Score, Core Web Vitals (LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1) and Search Console clicks as the client's baseline.
 
 If Claude SEO isn't installed, work through your own skills in this order, skipping any the brief rules out:
