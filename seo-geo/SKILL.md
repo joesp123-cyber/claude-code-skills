@@ -73,7 +73,19 @@ Google lets readers mark a site as a preferred source. After that, they see it m
 3. **Strict Content Security Policy:** allow `news.google.com`, `www.gstatic.com` and `fonts.gstatic.com`. Or skip the script and use a plain branded link to `https://www.google.com/preferences/source?q=<domain>`.
 4. **Describe it honestly.** It personalises results for the readers who click it. It is not a site-wide ranking boost, and Google says it doesn't override relevance or quality. Clicks happen inside Google's frame, so the site can't count them.
 
-## Step 6 — Entity consistency and mentions
+## Step 6 — The business profile in ChatGPT
+
+OpenAI launched Businesses in ChatGPT on 10 November 2026 (beta): a Business Hub where a business claims its profile, corrects its details, adds a product or service feed with pricing and availability, and sees how often ChatGPT mentions it and how many people click.
+
+1. **Find the listing.** Ask ChatGPT for the business by name and category. If ChatGPT already shows a listing, it stays whether or not it is claimed; claiming is how you correct it.
+2. **Claim and verify.** Claim it in the Business Hub. A second identity check (run by Persona) must be approved before most features open. Online businesses can claim an existing listing or add a missing one; local stores and restaurants can currently only claim an existing US listing, so say so for UK local clients.
+3. **Correct and enrich.** The same name, description, address and hours as the Google Business Profile and the site's JSON-LD (Step 7). Add the product or service feed where it applies.
+4. **Track.** Record mentions and clicks monthly beside Search Console clicks.
+5. **Business Agents and ChatGPT Ads** are separate, US-only for now, and paid: never set them up without the client's approval.
+
+Check OpenAI's own announcement before quoting eligibility: coverage is new and secondary sources differ.
+
+## Step 7 — Entity consistency and mentions
 - The same one-line description of the brand everywhere: the site, LinkedIn, GBP, directories.
 - `sameAs` in the JSON-LD links all official profiles (see `seo-schema`).
 - Earn mentions in the sources Step 1 showed are being cited: industry directories, "best X" listicles, Reddit threads (as genuine participation, never spam), podcasts, partner sites. List the 10 best targets.
@@ -85,7 +97,7 @@ Google lets readers mark a site as a preferred source. After that, they see it m
 ### Baseline
 | Question | Brand mentioned? | Cited sources instead |
 ### Changes made / to make
-- robots AI rules: …   - llms.txt: …   - preferred-source button: …   - pages restructured: …
+- robots AI rules: …   - llms.txt: …   - preferred-source button: …   - ChatGPT business profile: …   - pages restructured: …
 ### Mention targets (top 10)
 ### Re-check in 30 days: [the same questions]
 ```
