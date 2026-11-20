@@ -24,6 +24,11 @@ Takes a call transcript and a proposal template, extracts everything the prospec
 
 **Trigger:** `/transcript-to-proposal` then paste transcript + template
 
+### `shift-briefing`
+Writes the AM or PM shift briefing email after the autonomous Jira shifts run. Built for a phone: decisions first as a numbered list, then what's ready to merge, what's blocked, and only the problems that need you. Under 20 lines, with no file paths, git commands or test counts.
+
+**Trigger:** `/shift-briefing`
+
 ## Installation
 
 Copy any skill folder into your Claude Code skills directory:
