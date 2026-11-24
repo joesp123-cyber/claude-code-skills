@@ -24,6 +24,16 @@ Takes a call transcript and a proposal template, extracts everything the prospec
 
 **Trigger:** `/transcript-to-proposal` then paste transcript + template
 
+### `shift-briefing`
+Writes the morning or evening email about what Claude built from your Jira to-do list. Plain English, grouped by project, and every item says what it does, so it makes sense without opening Jira. Questions for you come first.
+
+**Trigger:** `/shift-briefing`
+
+### `log-session`
+Adds the chat you're in to your Instances Manager in Notion, including cloud chats that the VS Code refresh can't see. Updates the row if it's already there.
+
+**Trigger:** `/log-session`
+
 ## Installation
 
 Copy any skill folder into your Claude Code skills directory:
