@@ -1,9 +1,9 @@
 ---
-name: log-instance
-description: "Adds the current Claude chat (cloud or VS Code) to Joe's Instances Manager in Notion, or updates its row if it is already there. Use when Joe says 'log this instance', 'add this chat to the instances manager', 'track this session', 'save this session to Notion' or '/log-instance', and before Joe closes or deletes a chat."
+name: log-session
+description: "Adds the current Claude chat (cloud or VS Code) to Joe's Instances Manager in Notion, or updates its row if it is already there. Use when Joe says 'log this session', 'log this instance', 'add this chat to the instances manager', 'track this session', 'save this session to Notion' or '/log-session', and before Joe closes or deletes a chat."
 ---
 
-# Log Instance
+# Log Session
 
 Joe keeps a list of every Claude chat he has running in Notion, on the page called "Instances Manager". On his PC, "refresh the instances manager" fills it from the chats open in VS Code. That misses cloud chats on claude.ai. This skill adds the chat you are in, wherever it runs.
 

@@ -29,10 +29,10 @@ Writes the morning or evening email about what Claude built from your Jira to-do
 
 **Trigger:** `/shift-briefing`
 
-### `log-instance`
+### `log-session`
 Adds the chat you're in to your Instances Manager in Notion, including cloud chats that the VS Code refresh can't see. Updates the row if it's already there.
 
-**Trigger:** `/log-instance`
+**Trigger:** `/log-session`
 
 ## Installation
 
